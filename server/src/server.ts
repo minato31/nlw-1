@@ -1,9 +1,16 @@
+import cors from "cors";
 import express from "express";
+import path from "path";
+import { routes } from "./routes";
 
 const app = express();
 
-app.get("/", (_, res) => {
-  res.json({ hello: "worl" });
-});
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(routes);
+
+app.use("/uploads", express.static(path.resolve(__dirname, "..", "uploads")));
 
 app.listen(3333, (e) => (e ? console.error(e) : null));
